@@ -282,9 +282,9 @@ export default function HomeScreen({navigation, props}) {
         <Tab.Screen name="FNO OPTION">
           {props => <FnoEquity {...props} extraData={date ? date : mDate} />}
         </Tab.Screen>
-        {/* <Tab.Screen name="EQUITY CASH">
-          {props => <EquityCash {...props} extraData={mDate} />}
-        </Tab.Screen> */}
+        <Tab.Screen name="EQUITY CASH">
+          {props => <EquityCash {...props} extraData={date ? date : mDate} />}
+        </Tab.Screen>
       </Tab.Navigator>
     </SafeAreaView>
   );

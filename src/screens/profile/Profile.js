@@ -18,6 +18,7 @@ import Share from 'react-native-share';
 
 const Profile = ({navigation}) => {
   const [user, setUser] = useState('');
+  const [url, setUrl] = useState('');
 
   //get User Api for name
   const getUser = async () => {
@@ -36,6 +37,7 @@ const Profile = ({navigation}) => {
   };
   useEffect(() => {
     getUser();
+    getUrl();
   }, []);
 
   //Delete User permanently api
@@ -47,6 +49,17 @@ const Profile = ({navigation}) => {
         AsyncStorage.removeItem('auth-token');
         AsyncStorage.removeItem('plan');
         navigation.replace('Login');
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+  const getUrl = () => {
+    axiosConfig
+      .get(`http://62.72.58.41:5000/api/app_setting`)
+      .then(response => {
+        console.log(response.data.data);
+        setUrl(response.data.data.app_url);
       })
       .catch(error => {
         console.log(error);
@@ -75,8 +88,8 @@ const Profile = ({navigation}) => {
   const shareOptions = {
     title: 'Hey, Check out this awesome app ✨ TradZoo ✨',
     message:
-      'Hey, Check out this awesome app ✨ TradZoo ✨ \n\n Join now to get daily updates for \n\n✅ NIFTY50 Chart Analysis.\n\n✅ BANKNIFTY Chart Analysis.\n\n✅ Market Trends.\n\n✅ Real Time Intraday Updates.\n\n📈 Platform for Traders by Traders.📈\n\n https://tradzoo.com \n\nDownload TradZoo App Now!!!',
-    url: 'https://play.google.com/store/apps/details?id=com.tradzoo.app',
+      'Hey, Check out this awesome app ✨ TradZoo ✨ \n\n Join now to get daily updates for \n\n✅ NIFTY50 Chart Analysis.\n\n✅ BANKNIFTY Chart Analysis.\n\n✅ Market Trends.\n\n✅ Real Time Intraday Updates.\n\n📈 Platform for Traders by Traders.📈\n\nDownload TradZoo App Now!!!',
+    url: url,
   };
 
   const onShare = async () => {

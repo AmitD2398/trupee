@@ -4,6 +4,7 @@ import {
   Text,
   View,
   RefreshControl,
+  Image,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {windowWidth} from '../../utils/Dimensions';
@@ -66,6 +67,21 @@ const AllTrade = ({extraData}) => {
     <ImageBackground
       source={require('../../Images/Background/bgImg.png')}
       style={styles.container}>
+      {allTrade !== null && allTrade.length == 0 && (
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: '55%',
+          }}>
+          <Image
+            source={require('../../../src/assets/no_data_found.png')}
+            resizeMode={'contain'}
+            style={{height: 75, width: 75, tintColor: '#333'}}
+          />
+          <Text style={[styles.no_recored_found_text]}>No data found</Text>
+        </View>
+      )}
       <ScrollView
         refreshControl={
           <RefreshControl

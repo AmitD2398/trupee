@@ -153,5 +153,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     paddingVertical: 15,
   },
+  no_recored_found_text: {
+    color: '#333',
+    fontSize: 16,
+    fontWeight: '500',
+    marginTop: 8,
+  },
 });
 export {styles};
