@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "trupee.app"
-               BlueprintName = "trupee"
-               ReferencedContainer = "container:trupee.xcodeproj">
+               BuildableName = "Tradlogy.app"
+               BlueprintName = "Tradlogy"
+               ReferencedContainer = "container:Tradlogy.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "trupeeTests.xctest"
-               BlueprintName = "trupeeTests"
-               ReferencedContainer = "container:trupee.xcodeproj">
+               BuildableName = "TradlogyTests.xctest"
+               BlueprintName = "TradlogyTests"
+               ReferencedContainer = "container:Tradlogy.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "trupee.app"
-            BlueprintName = "trupee"
-            ReferencedContainer = "container:trupee.xcodeproj">
+            BuildableName = "Tradlogy.app"
+            BlueprintName = "Tradlogy"
+            ReferencedContainer = "container:Tradlogy.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "trupee.app"
-            BlueprintName = "trupee"
-            ReferencedContainer = "container:trupee.xcodeproj">
+            BuildableName = "Tradlogy.app"
+            BlueprintName = "Tradlogy"
+            ReferencedContainer = "container:Tradlogy.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

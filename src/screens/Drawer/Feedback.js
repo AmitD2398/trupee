@@ -82,7 +82,7 @@ const Feedback = () => {
         <View style={{marginTop: 10}}>
           <Text style={styles.txtBotoom}>
             if you have someting to say that does not fit here,please send us an
-            email at <Text style={{color: 'blue'}}>support@trupee.com</Text>
+            email at <Text style={{color: 'blue'}}>support@Tradlogy.com</Text>
           </Text>
         </View>
         <View

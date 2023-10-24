@@ -358,7 +358,7 @@ const MemberPlan = ({navigation}) => {
           <View style={styles.subView}>
             <View style={styles.bottomStyle}>
               <Text style={[styles.viewThree, {color: '#000'}]}>
-                I understand & agree to all of Trupee’s
+                I understand & agree to all of Tradlogy’s
               </Text>
               <TouchableOpacity
                 onPress={() => navigation.navigate('Terms & Conditions')}>

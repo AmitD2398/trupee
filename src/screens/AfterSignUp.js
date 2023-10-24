@@ -42,7 +42,7 @@ const AfterSignUp = ({navigation}) => {
     if (plan !== null) {
       console.log('success');
       console.log(plan);
-      Alert.alert('Welcome to Trupee');
+      Alert.alert('Welcome to Tradlogy');
       setStoreddata(plan);
       navigation.replace('Home');
     } else {
@@ -226,8 +226,8 @@ const AfterSignUp = ({navigation}) => {
           <View style={styles.subView}>
             <View style={styles.topView}>
               <Text style={styles.topText}>
-                Welcome to Trupee community. Over 10K+ subscriber are investing
-                through our platform.
+                Welcome to Tradlogy community. Over 10K+ subscriber are
+                investing through our platform.
               </Text>
             </View>
           </View>
@@ -354,7 +354,7 @@ const AfterSignUp = ({navigation}) => {
           <View style={styles.subView}>
             <View style={styles.bottomStyle}>
               <Text style={[styles.viewThree, {color: '#000'}]}>
-                I understand & agree to all of Trupee’s
+                I understand & agree to all of Tradlogy’s
               </Text>
               <TouchableOpacity
                 onPress={() => navigation.navigate('Terms & Conditions')}>

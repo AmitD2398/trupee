@@ -48,7 +48,7 @@ const Appreciation = () => {
       });
   };
 
-  const trupee = () => {
+  const Tradlogy = () => {
     var options = {
       description: 'Credits towards consultation',
       image: 'https://i.imgur.com/3g7nmJC.png',
@@ -159,7 +159,7 @@ const Appreciation = () => {
         </View>
       </ScrollView>
       <View>
-        <TouchableOpacity style={styles.bottomButton} onPress={trupee}>
+        <TouchableOpacity style={styles.bottomButton} onPress={Tradlogy}>
           <Text style={styles.buttonText}>SEND</Text>
         </TouchableOpacity>
       </View>
