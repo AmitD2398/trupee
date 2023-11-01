@@ -33,8 +33,7 @@ const MemberPlan = ({navigation}) => {
     if (plan !== null) {
       console.log('success');
       console.log(plan);
-      Alert.alert('Welcome to Tradlogy');
-
+      // Alert.alert('Welcome to tradlogy');
       //setStoreddata(plan);
       navigation.replace('Home');
     } else {
@@ -358,7 +357,7 @@ const MemberPlan = ({navigation}) => {
           <View style={styles.subView}>
             <View style={styles.bottomStyle}>
               <Text style={[styles.viewThree, {color: '#000'}]}>
-                I understand & agree to all of Tradlogy’s
+                I understand & agree to all of tradlogy’s
               </Text>
               <TouchableOpacity
                 onPress={() => navigation.navigate('Terms & Conditions')}>

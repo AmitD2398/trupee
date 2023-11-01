@@ -5,25 +5,29 @@ const styles = StyleSheet.create({
   /* Header */
   mainView: {
     flexDirection: 'row',
-    marginTop: 0,
-    height: 100,
+    // marginTop: 0,
+    // height: 100,
     backgroundColor: '#FFF',
     elevation: 10,
+    justifyContent: 'space-between',
   },
   firstView: {
-    flex: 1,
     justifyContent: 'center',
   },
   secondView: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  dateTextView: {
     borderWidth: 1,
     borderColor: 'green',
     borderRadius: 5,
-    padding: 4,
+    marginRight: 10,
+    marginVertical: 5,
+  },
+  dateTextView: {
+    // borderWidth: 1,
+    // borderColor: 'green',
+    // borderRadius: 5,
+    // padding: 4,
   },
   tradeTextView: {
     justifyContent: 'center',

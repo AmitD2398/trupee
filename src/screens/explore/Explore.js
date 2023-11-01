@@ -43,7 +43,7 @@ const Explore = ({navigation}) => {
                     source={require('../../Images/explore/trupee-library-tab1.png')}
                     style={styles.exploreImg}>
                     <View style={styles.ccc1}>
-                      <Text style={styles.ccctext}>Tradlogy University</Text>
+                      <Text style={styles.ccctext}>tradlogy University</Text>
                     </View>
                   </ImageBackground>
                 </TouchableOpacity>

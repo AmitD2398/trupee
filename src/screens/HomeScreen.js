@@ -91,25 +91,20 @@ export default function HomeScreen({navigation, props}) {
       <View>
         <View style={styles.mainView}>
           <View style={styles.firstView}>
-            <TouchableOpacity>
-              <Image
-                style={styles.logoImg}
-                resizeMode="contain"
-                source={require('../Images/top-left-logo/top-left-logo1.png')}
-              />
-            </TouchableOpacity>
+            <Image
+              style={styles.logoImg}
+              resizeMode="contain"
+              source={require('../Images/top-left-logo/top-left-logo1.png')}
+            />
           </View>
 
           <View style={styles.secondView}>
-            <TouchableOpacity
-              style={styles.dateTextView}
-              onPress={() => setModalVisible(true)}>
+            <TouchableOpacity style={styles.dateTextView}>
               <View style={styles.tradeTextView}>
                 <Text style={styles.tradeText}>Today's P&L</Text>
               </View>
               <View
                 style={{
-                  flexDirection: 'row',
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
@@ -122,7 +117,9 @@ export default function HomeScreen({navigation, props}) {
                     ₹ {todayProfit?.total_prft_loss}
                   </Text>
                 )}
-                <TouchableOpacity style={{}} onPress={() => setOpen(true)}>
+                <TouchableOpacity
+                  style={{alignSelf: 'center'}}
+                  onPress={() => setOpen(true)}>
                   <DatePicker
                     open={open}
                     date={date}
@@ -154,11 +151,13 @@ export default function HomeScreen({navigation, props}) {
                   <View></View>
                 </TouchableOpacity>
               </View>
-              <View style={styles.tradeTextView}>
-                <Text style={styles.tradeText2}>
-                  Total Performance | Trade History
-                </Text>
-              </View>
+              <TouchableOpacity onPress={() => setModalVisible(true)}>
+                <View style={styles.tradeTextView}>
+                  <Text style={styles.tradeText2}>
+                    Total Performance | Trade History
+                  </Text>
+                </View>
+              </TouchableOpacity>
             </TouchableOpacity>
             <View style={styles.centeredView}>
               <Modal
@@ -292,25 +291,29 @@ export default function HomeScreen({navigation, props}) {
 const styles = StyleSheet.create({
   mainView: {
     flexDirection: 'row',
-    marginTop: 0,
-    height: 100,
+    // marginTop: 0,
+    // height: 100,
     backgroundColor: '#FFF',
     elevation: 10,
+    justifyContent: 'space-between',
   },
   firstView: {
-    flex: 1,
     justifyContent: 'center',
   },
   secondView: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  dateTextView: {
     borderWidth: 1,
     borderColor: 'green',
     borderRadius: 5,
-    padding: 4,
+    marginRight: 10,
+    marginVertical: 5,
+  },
+  dateTextView: {
+    // borderWidth: 1,
+    // borderColor: 'green',
+    // borderRadius: 5,
+    // padding: 4,
   },
   tradeTextView: {
     justifyContent: 'center',

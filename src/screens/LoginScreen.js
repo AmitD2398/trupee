@@ -8,6 +8,7 @@ import {
   Image,
   StyleSheet,
   ScrollView,
+  ImageBackground,
 } from 'react-native';
 import axios from 'axios';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -16,13 +17,26 @@ import {useNavigation} from '@react-navigation/native';
 import HomeScreen from './HomeScreen';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import auth from '@react-native-firebase/auth';
+import messaging from '@react-native-firebase/messaging';
 
 const LoginScreen = () => {
   const [mobile, setMobile] = useState('');
   const [otp, setOtp] = useState(true);
   const [code, setCode] = useState('');
   const [storeddata, setStoreddata] = useState('');
-
+  const [fcmToken, setFcmToken] = useState('');
+  const [confirm, setConfirm] = useState(null);
+  console.log('otp', otp);
+  useEffect(async () => {
+    getToken();
+  }, []);
+  const getToken = async () => {
+    await messaging().registerDeviceForRemoteMessages();
+    const token = await messaging().getToken();
+    setFcmToken(token);
+    console.log('messagingToken2', token);
+  };
   const sendMobile = () => {
     setOtp(false);
     console.log(mobile);
@@ -31,7 +45,7 @@ const LoginScreen = () => {
         mobile: mobile,
       })
       .then(response => {
-        console.log(response.data);
+        console.log('signupsendotp', response.data);
       })
       .catch(error => {
         console.log(error);
@@ -68,7 +82,7 @@ const LoginScreen = () => {
       console.log('no Value in login');
     }
   };
-  useEffect(() => {
+  useEffect(async () => {
     getData();
   }, [storeddata]);
   const verifyOtp = () => {
@@ -76,13 +90,13 @@ const LoginScreen = () => {
     axios
       .post(`http://62.72.58.41:5000/user/verifyotp`, {
         mobile: mobile,
-        otp: code,
-        fcmToken: 'abcd',
+        otp: '123456',
+        fcmToken: fcmToken,
       })
       .then(response => {
-        console.log(response.data);
         if (response.data.token != null) {
           _storeData(response.data.token);
+          console.log('token???', response.data.token);
           if (response.data.msg !== 'Welcome Back') {
             navigation.replace('AfterSignUp');
           } else {
@@ -103,15 +117,38 @@ const LoginScreen = () => {
   };
 
   const navigation = useNavigation();
+  const signInWithPhoneNumber = async () => {
+    const confirmation = await auth().signInWithPhoneNumber('+91' + mobile);
+    setOtp(false);
+    sendMobile();
+    setConfirm(confirmation);
+    console.log(confirmation, 'confirmation kya aya?');
+  };
+  const confirmCode = async () => {
+    try {
+      const res = await confirm.confirm(code);
+      console.log(res);
+      verifyOtp();
+    } catch (error) {
+      console.log('Invalid code.');
+    }
+  };
+  const handleChange = text => {
+    // Replace dots, dashes, and spaces with empty string
+    const filteredText = text.replace(/[,.-\s]/g, '');
+    setMobile(filteredText);
+  };
   return (
-    <SafeAreaView
+    <ImageBackground
+      source={require('../Images/Background/bgImg.png')}
       style={{flex: 1, justifyContent: 'center', backgroundColor: '#fff'}}>
       {otp === true ? (
         <View style={{marginHorizontal: 50}}>
           <View style={styles.topLogo}>
             <Image
-              source={require('../Images/mainlogo/mainLogo.png')}
-              style={{height: 150, width: 150}}
+              resizeMode="contain"
+              source={require('../Images/top-left-logo/top-left-logo1.png')}
+              style={{height: 80, width: 200}}
             />
           </View>
           <View style={styles.topLogo}>
@@ -131,17 +168,35 @@ const LoginScreen = () => {
                   placeholderTextColor="#000"
                   color="#000"
                   value={mobile}
-                  onChangeText={setMobile}
+                  onChangeText={handleChange}
                   keyboardType="number-pad"
-                  maxLength={10}
+                  maxLength={12}
                 />
+                {mobile.length > 0 &&
+                  (mobile.length < 9 || mobile.length > 12 ? (
+                    <Text style={styles.warning}>
+                      Please enter a valid 9-12 digit mobile number
+                    </Text>
+                  ) : null)}
               </View>
             </View>
           </View>
           <View style={styles.topLogo}>
-            <TouchableOpacity style={styles.touchButton} onPress={sendMobile}>
-              <Text style={styles.buttontext}>Get OTP</Text>
-            </TouchableOpacity>
+            {mobile.length >= 10 ? (
+              <TouchableOpacity
+                style={styles.touchButton}
+                onPress={signInWithPhoneNumber}>
+                <Text style={styles.buttontext}>Get OTP</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={[
+                  styles.touchButton,
+                  {backgroundColor: 'rgba(255, 0, 0, 0.5)'},
+                ]}>
+                <Text style={styles.buttontext}>Get OTP</Text>
+              </TouchableOpacity>
+            )}
           </View>
         </View>
       ) : (
@@ -166,19 +221,19 @@ const LoginScreen = () => {
             />
           </View>
           <View style={styles.topLogo1}>
-            <TouchableOpacity style={styles.touchButton} onPress={verifyOtp}>
+            <TouchableOpacity style={styles.touchButton} onPress={confirmCode}>
               <Text style={styles.buttontext}>SUBMIT</Text>
             </TouchableOpacity>
           </View>
         </View>
       )}
-    </SafeAreaView>
+    </ImageBackground>
   );
 };
 const styles = StyleSheet.create({
   topLogo: {
     alignItems: 'center',
-    marginVertical: 40,
+    marginTop: 40,
   },
   topLogo1: {
     alignItems: 'center',
@@ -227,6 +282,11 @@ const styles = StyleSheet.create({
     color: '#000',
     fontSize: 20,
     fontWeight: '600',
+  },
+  warning: {
+    color: 'red',
+    marginVertical: 5,
+    marginLeft: 10,
   },
 });
 

@@ -225,38 +225,73 @@ export default function Notification({navigation}) {
       <View>
         <View style={styles.mainView}>
           <View style={styles.firstView}>
-            <TouchableOpacity>
-              <Image
-                style={styles.logoImg}
-                resizeMode="contain"
-                source={require('../../Images/top-left-logo/top-left-logo1.png')}
-              />
-            </TouchableOpacity>
+            <Image
+              style={styles.logoImg}
+              resizeMode="contain"
+              source={require('../../Images/top-left-logo/top-left-logo1.png')}
+            />
           </View>
 
           <View style={styles.secondView}>
-            <TouchableOpacity
-              style={styles.dateTextView}
-              onPress={() => setModalVisible(true)}>
+            <TouchableOpacity style={styles.dateTextView}>
               <View style={styles.tradeTextView}>
                 <Text style={styles.tradeText}>Today's P&L</Text>
               </View>
-              <View style={styles.tradeTextView}>
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
                 {todayProfit?.total_prft_loss < 0 ? (
                   <Text style={[styles.tradeText1, {color: 'red'}]}>
-                    ₹ {todayProfit?.total_prft_loss}
+                    ₹ {tabDate}
                   </Text>
                 ) : (
                   <Text style={[styles.tradeText1, {color: 'green'}]}>
                     ₹ {todayProfit?.total_prft_loss}
                   </Text>
                 )}
+                <TouchableOpacity
+                  style={{alignSelf: 'center'}}
+                  onPress={() => setOpen(true)}>
+                  <DatePicker
+                    open={open}
+                    date={date}
+                    mode="date"
+                    format="DD-MM-YYYY"
+                    // minDate="2016-05-01"
+                    // maxDate="2016-06-01"
+                    confirmBtnText="Confirm"
+                    cancelBtnText="Cancel"
+                    onDateChange={setDate}
+                    showIcon={true}
+                    hideText={false}
+                    customStyles={{
+                      dateIcon: {
+                        position: 'absolute',
+                        left: 0,
+                        marginRight: 10,
+
+                        height: 20,
+                        marginBottom: 0,
+                      },
+                      dateInput: {
+                        marginLeft: 5,
+                        borderWidth: 0,
+                        marginBottom: 5,
+                      },
+                    }}
+                  />
+                  <View></View>
+                </TouchableOpacity>
               </View>
-              <View style={styles.tradeTextView}>
-                <Text style={styles.tradeText2}>
-                  Total Performance | Trade History
-                </Text>
-              </View>
+              <TouchableOpacity onPress={() => setModalVisible(true)}>
+                <View style={styles.tradeTextView}>
+                  <Text style={styles.tradeText2}>
+                    Total Performance | Trade History
+                  </Text>
+                </View>
+              </TouchableOpacity>
             </TouchableOpacity>
             <View style={styles.centeredView}>
               <Modal
@@ -308,7 +343,7 @@ export default function Notification({navigation}) {
                         )}
                       </View>
                     </View>
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                       style={styles.calender}
                       onPress={() => setOpen(true)}>
                       <Text
@@ -347,7 +382,7 @@ export default function Notification({navigation}) {
                           },
                         }}
                       />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     <TouchableOpacity
                       style={[styles.button, styles.buttonClose]}
                       onPress={() => setModalVisible(!modalVisible)}>

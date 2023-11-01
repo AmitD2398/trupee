@@ -15,7 +15,7 @@ import SimpleHeader from '../../components/SimpleHeader';
 import axiosConfig from '../../../axiosConfig';
 import axios from 'axios';
 import Share from 'react-native-share';
-
+import Rate, {AndroidMarket} from 'react-native-rate';
 const Profile = ({navigation}) => {
   const [user, setUser] = useState('');
   const [url, setUrl] = useState('');
@@ -100,6 +100,20 @@ const Profile = ({navigation}) => {
       .catch(err => {
         err && console.log(err);
       });
+  };
+
+  const rateApp = () => {
+    const options = {
+      GooglePackageName: 'com.example.yourapp', // Replace with your app's package name
+      preferredAndroidMarket: AndroidMarket.Google,
+      openAppStoreIfInAppFails: true,
+    };
+
+    Rate.rate(options, success => {
+      if (success) {
+        // The user rated the app, you can perform actions here if needed
+      }
+    });
   };
   return (
     <ImageBackground
@@ -299,9 +313,7 @@ const Profile = ({navigation}) => {
           </TouchableOpacity>
         </View>
         <View style={styles.row}>
-          <TouchableOpacity
-            style={styles.btn}
-            onPress={() => navigation.navigate('Rate Us')}>
+          <TouchableOpacity style={styles.btn} onPress={rateApp}>
             <View style={styles.eachSection}>
               <Ionicons
                 name="ribbon"

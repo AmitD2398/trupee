@@ -48,7 +48,7 @@ const Appreciation = () => {
       });
   };
 
-  const Tradlogy = () => {
+  const tradlogy = () => {
     var options = {
       description: 'Credits towards consultation',
       image: 'https://i.imgur.com/3g7nmJC.png',
@@ -103,7 +103,7 @@ const Appreciation = () => {
               </View>
               <View style={styles.spaceView}>
                 <Text style={styles.SimpleText}>
-                  Tradlogy has a commitment to help needy-poor-orphan people by
+                  tradlogy has a commitment to help needy-poor-orphan people by
                   your donation, a token of appreciation or Corporate Social
                   Responsibility towards our society.
                 </Text>
@@ -159,7 +159,7 @@ const Appreciation = () => {
         </View>
       </ScrollView>
       <View>
-        <TouchableOpacity style={styles.bottomButton} onPress={Tradlogy}>
+        <TouchableOpacity style={styles.bottomButton} onPress={tradlogy}>
           <Text style={styles.buttonText}>SEND</Text>
         </TouchableOpacity>
       </View>

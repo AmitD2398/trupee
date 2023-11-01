@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "300567468698",
+    "project_id": "tradlogy",
+    "storage_bucket": "tradlogy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300567468698:android:d901aa05487cf7c9b31d23",
+        "android_client_info": {
+          "package_name": "com.tradlogy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsLbck-bOXii-BPY_ikKnsqbF1S-KTpls"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

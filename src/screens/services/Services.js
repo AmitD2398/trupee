@@ -355,7 +355,7 @@ const Services = ({navigation}) => {
           <View style={styles.subView}>
             <View style={styles.bottomStyle}>
               <Text style={[styles.viewThree, {color: '#000'}]}>
-                I understand & agree to all of Tradlogy’s
+                I understand & agree to all of tradlogy’s
               </Text>
               <TouchableOpacity
                 onPress={() => navigation.navigate('Terms & Conditions')}>
