@@ -73,7 +73,7 @@ const MemberPlan = ({navigation}) => {
   //Wallet Api
   const getWallet = async () => {
     axios
-      .get(`http://62.72.58.41:5000/user/myWallet`, {
+      .get(`https://crm.tradlogy.com/user/myWallet`, {
         headers: {
           'auth-token': await AsyncStorage.getItem('auth-token'),
         },
@@ -93,7 +93,7 @@ const MemberPlan = ({navigation}) => {
     console.log(selectedItem);
     axios
       .post(
-        `http://62.72.58.41:5000/user/freeMembership`,
+        `https://crm.tradlogy.com/user/freeMembership`,
         {
           planId: selectedItem,
           type: 'Free',
@@ -128,7 +128,7 @@ const MemberPlan = ({navigation}) => {
     console.log(selectedItem, JSON.parse(paymentId));
     axios
       .post(
-        `http://62.72.58.41:5000/user/addMemeberShip`,
+        `https://crm.tradlogy.com/user/addMemeberShip`,
         {
           planId: selectedItem,
           razorpay_payment_id: JSON.parse(paymentId),
@@ -259,9 +259,9 @@ const MemberPlan = ({navigation}) => {
                       }>
                       <View style={[styles.card, {backgroundColor: '#c0d4a3'}]}>
                         <Text style={styles.textcard}>{item?.pack_name}</Text>
-                        <Text style={styles.textcard}>₹{item?.des_price}</Text>
+                        <Text style={styles.textcard}>{item?.des_price}</Text>
                         <Text style={styles.textcard1}>
-                          ₹ {item?.mrp_price}
+                           {item?.mrp_price}
                         </Text>
                         <Text style={styles.offText}>{item?.desc}</Text>
                       </View>
@@ -318,7 +318,7 @@ const MemberPlan = ({navigation}) => {
               style={{flexDirection: 'row', justifyContent: 'space-between'}}>
               <View style={styles.viewThree}>
                 <Text style={{fontWeight: '700', color: 'black', fontSize: 16}}>
-                  ₹ {wallet?.amount}
+                   {wallet?.amount}
                 </Text>
               </View>
               <View style={styles.viewThree}>

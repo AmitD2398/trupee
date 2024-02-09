@@ -48,7 +48,7 @@ const ReferEarn = () => {
   //get User Api for name
   const getUser = async () => {
     axios
-      .get(`http://62.72.58.41:5000/user/viewoneuser`, {
+      .get(`https://crm.tradlogy.com/user/viewoneuser`, {
         headers: {
           'auth-token': await AsyncStorage.getItem('auth-token'),
         },

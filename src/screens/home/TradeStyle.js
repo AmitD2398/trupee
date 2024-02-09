@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 3,
     paddingVertical: 2,
     fontWeight: '500',
-    textTransform: 'capitalize',
+    textTransform: 'uppercase',
   },
   bgarea3: {
     justifyContent: 'flex-start',
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   notbuy1: {
-    fontSize: 12,
+    fontSize: 15,
     color: '#000',
     paddingHorizontal: 6,
     fontWeight: '600',
@@ -50,13 +50,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   notbuy: {
-    fontSize: 13,
+    fontSize: 15,
     color: '#000',
-    padding: 3,
-    fontWeight: '600',
+    fontWeight: '800',
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
+    marginHorizontal: 5,
   },
   circle1: {
     margin: 5,
@@ -110,8 +110,8 @@ const styles = StyleSheet.create({
   },
   bottomText: {
     color: '#000',
-    fontWeight: '400',
-    fontSize: 13,
+    fontWeight: '800',
+    fontSize: 15,
   },
   bottomText1: {
     color: '#000',
@@ -122,14 +122,16 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: 'gray',
   },
-
   showView: {
     flexDirection: 'row',
-    marginVertical: 10,
-    backgroundColor: '#d3d3d3',
-    padding: 10,
+    marginVertical: 5,
+    backgroundColor: '#F3DEED',
+    flex: 1,
+    borderRadius: 10,
+    marginHorizontal: 5,
+    padding: 5,
   },
-  insideViewOne: {flex: 2, marginLeft: 5},
+  insideViewOne: {flex: 1},
   dropTextOne: {color: '#000', fontSize: 12},
   insideViewTwo: {
     flex: 1,

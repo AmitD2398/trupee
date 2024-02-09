@@ -27,7 +27,7 @@ const RegisterScreen = () => {
     setOtp(false);
     console.log(mobile);
     axios
-      .post(`http://62.72.58.41:5000/user/signupsendotp`, {
+      .post(`https://crm.tradlogy.com/user/signupsendotp`, {
         mobile: mobile,
       })
       .then(response => {
@@ -65,7 +65,7 @@ const RegisterScreen = () => {
   const verifyOtp = () => {
     console.log(mobile, code);
     axios
-      .post(`http://62.72.58.41:5000/user/verifyotp`, {
+      .post(`https://crm.tradlogy.com/user/verifyotp`, {
         mobile: mobile,
         otp: code,
       })

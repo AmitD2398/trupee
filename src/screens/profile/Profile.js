@@ -23,7 +23,7 @@ const Profile = ({navigation}) => {
   //get User Api for name
   const getUser = async () => {
     axios
-      .get(`http://62.72.58.41:5000/user/viewoneuser`, {
+      .get(`https://crm.tradlogy.com/user/viewoneuser`, {
         headers: {'auth-token': await AsyncStorage.getItem('auth-token')},
       })
       .then(response => {
@@ -56,7 +56,7 @@ const Profile = ({navigation}) => {
   };
   const getUrl = () => {
     axiosConfig
-      .get(`http://62.72.58.41:5000/api/app_setting`)
+      .get(`https://crm.tradlogy.com/api/app_setting`)
       .then(response => {
         console.log(response.data.data);
         setUrl(response.data.data.app_url);
@@ -195,7 +195,7 @@ const Profile = ({navigation}) => {
             </View>
           </TouchableOpacity>
         </View>
-        <View style={styles.row}>
+        {/* <View style={styles.row}>
           <TouchableOpacity
             style={styles.btn}
             onPress={() => navigation.navigate('App Walkthrough')}>
@@ -217,7 +217,7 @@ const Profile = ({navigation}) => {
               />
             </View>
           </TouchableOpacity>
-        </View>
+        </View> */}
         <View style={styles.row}>
           <TouchableOpacity
             style={styles.btn}

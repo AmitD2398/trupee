@@ -173,7 +173,7 @@
 
 //             <View style={[styles.circle, {backgroundColor: '#66bb6a'}]}>
 //               <Text style={styles.notbuy}>
-//                 T₹ 1{'\n'}
+//                 T 1{'\n'}
 //                 120
 //               </Text>
 //             </View>
@@ -182,7 +182,7 @@
 
 //             <View style={[styles.circle, {backgroundColor: '#66bb6a'}]}>
 //               <Text style={styles.notbuy}>
-//                 T₹ 2{'\n'}
+//                 T 2{'\n'}
 //                 140
 //               </Text>
 //             </View>
@@ -191,7 +191,7 @@
 
 //             <View style={[styles.circle, {backgroundColor: '#fff'}]}>
 //               <Text style={styles.notbuy}>
-//                 T₹ 3{'\n'}
+//                 T 3{'\n'}
 //                 160
 //               </Text>
 //             </View>
@@ -200,7 +200,7 @@
 
 //             <View style={[styles.circle, {backgroundColor: '#fff'}]}>
 //               <Text style={styles.notbuy}>
-//                 T₹ 4{'\n'}
+//                 T 4{'\n'}
 //                 180
 //               </Text>
 //             </View>
@@ -212,13 +212,13 @@
 //               <Text style={styles.bottomText}>
 //                 Quantity & investment Amount
 //               </Text>
-//               <Text style={styles.bottomText1}>100 Lots(10 Qty) = ₹ 1000</Text>
+//               <Text style={styles.bottomText1}>100 Lots(10 Qty) =  1000</Text>
 //             </View>
 //             <View style={styles.botomview2}>
 //               <Text style={styles.bottomText}>P&L</Text>
 
 //               <Text style={[styles.bottomText1, , {color: 'green'}]}>
-//                 ₹ 100 | 10%
+//                  100 | 10%
 //               </Text>
 //             </View>
 //           </View>

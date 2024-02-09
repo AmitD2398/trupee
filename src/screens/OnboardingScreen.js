@@ -18,7 +18,7 @@ const OnboardingScreen = ({navigation}) => {
   setTimeout(async () => {
     const value = await AsyncStorage.getItem('auth-token');
     if (value !== null) {
-      navigation.replace('MemberPlan');
+      navigation.replace('Home');
     } else {
       navigation.replace('Login');
       //navigation.replace('Login', {name: 'Login'});

@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Alert,
   ImageBackground,
+  ToastAndroid,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {Button, Card, Paragraph, Title} from 'react-native-paper';
@@ -17,8 +18,9 @@ import SimpleHeader from '../../components/SimpleHeader';
 import axiosConfig from '../../../axiosConfig';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import RazorpayCheckout from 'react-native-razorpay';
 import {clockRunning} from 'react-native-reanimated';
+import {CheckBox} from 'react-native-elements';
+import Webview from '../../components/Webview';
 
 const backgroundColors = [
   '#b3d4a5',
@@ -28,7 +30,14 @@ const backgroundColors = [
   '#EC7063',
   '#5D6D7E',
 ];
-const Services = ({navigation}) => {
+const Services = ({navigation, route}) => {
+  const {payment_final_id} = route.params ?? {};
+  console.log('payment_final_id', payment_final_id?.payment_request?.id);
+  {payment_final_id?.payment_request?.id ?
+    paidPlan()
+    :
+    null
+  }
   const [user, setUser] = useState({});
   const [plan, setPlan] = useState([]);
   const [selectedItem, setSelectedItem] = useState('');
@@ -37,6 +46,19 @@ const Services = ({navigation}) => {
   const [wallet, setWallet] = useState({});
   const [paymentId, setPaymentId] = useState();
   const [storeddata, setStoreddata] = useState('');
+  const [checkBoxValue, setCheckBoxValue] = useState('');
+  const [loading, setLoading] = useState(false);
+  console.log('selectedItem', selectedItem);
+  const handleCheckBoxPress = () => {
+    // Check if the amount is lower than 10 rupees
+    if (wallet?.amount < 10) {
+      // Display an error message or perform some other action
+      console.error('Error: Insufficient Wallet Points, Minimum  10');
+    } else {
+      // Proceed with the CheckBox action
+      setCheckBoxValue(!checkBoxValue);
+    }
+  };
 
   //<===================== StorePlan id in Localstorage========>
 
@@ -59,7 +81,7 @@ const Services = ({navigation}) => {
   //<==========================Get User Api===========>
   const getUser = async () => {
     axios
-      .get(`http://62.72.58.41:5000/user/viewoneuser`, {
+      .get(`https://crm.tradlogy.com/user/viewoneuser`, {
         headers: {'auth-token': await AsyncStorage.getItem('auth-token')},
       })
       .then(response => {
@@ -86,7 +108,7 @@ const Services = ({navigation}) => {
   //Wallet Api
   const getWallet = async () => {
     axios
-      .get(`http://62.72.58.41:5000/user/myWallet`, {
+      .get(`https://crm.tradlogy.com/user/myWallet`, {
         headers: {
           'auth-token': await AsyncStorage.getItem('auth-token'),
         },
@@ -106,7 +128,7 @@ const Services = ({navigation}) => {
     console.log(selectedItem);
     axios
       .post(
-        `http://62.72.58.41:5000/user/freeMembership`,
+        `https://crm.tradlogy.com/user/freeMembership`,
         {
           planId: selectedItem,
           type: 'Free',
@@ -136,15 +158,17 @@ const Services = ({navigation}) => {
   };
 
   //<============Add Paid plan api===========>
+  
 
   const paidPlan = async () => {
-    console.log(selectedItem, JSON.parse(paymentId));
+    console.log('selectedItem???', selectedItem, payment_final_id?.payment_request?.id);
     axios
       .post(
-        `http://62.72.58.41:5000/user/addMemeberShip`,
+        `https://crm.tradlogy.com/user/addMemeberShip`,
         {
           planId: selectedItem,
-          razorpay_payment_id: JSON.parse(paymentId),
+          razorpay_payment_id: payment_final_id?.payment_request?.id,
+          payment_response:payment_final_id
         },
         {
           headers: {
@@ -169,39 +193,50 @@ const Services = ({navigation}) => {
   };
 
   //=======Apply Code Post Api ==========>
+
   const subscribe = async () => {
     if (discPrice !== 0) {
-      var options = {
-        description: 'Credits towards consultation',
-        image: 'https://i.imgur.com/3g7nmJC.png',
-        currency: 'INR',
-        key: 'rzp_test_rUafkCJLwIeF1t', // Your api key
-        amount: (discPrice - wallet.amount) * 100,
-        name: wallet?.firstname,
-        prefill: {
-          email: 'demo@demo.com',
-          contact: wallet?.mobile,
-          name: wallet?.firstname,
-        },
-        theme: {color: '#F37254'},
-      };
-      RazorpayCheckout.open(options)
-        .then(data => {
-          setPaymentId(JSON.stringify(data.razorpay_payment_id));
-          console.log(paymentId);
-          if (paymentId != '' && paymentId != null && paymentId != undefined) {
-            paidPlan();
-          } else {
-            Alert.alert('Payment Failed');
-          }
-        })
-        .catch(error => {
-          console.log(error);
-          Alert.alert('Your Transation was Unsuccessful');
-        });
+      try {
+        const requestBody = {
+          purpose: 'Your Payment Purpose',
+          amount: discPrice - wallet.amount,
+          buyer_name: wallet?.firstname,
+          redirect_url: 'http://www.example.com',
+          send_email: false,
+          allow_repeated_payments: false,
+        };
+
+        console.log('Request Payload:', JSON.stringify(requestBody));
+
+        const response = await axios.post(
+          'https://www.instamojo.com/api/1.1/payment-requests/',
+          requestBody,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Api-Key': 'b7582c5b8e16d99a6b1fd165c15a0dbe',
+              'X-Auth-Token': '623440849b453f66fcc352780111efc6',
+            },
+          },
+        );
+
+        // Log the entire response for debugging purposes
+        console.log('Response:', response.data);
+
+        // Redirect the user to the payment URL
+        const paymentURL = response.data.payment_request.longurl;
+        // Use React Navigation or Linking to open the paymentURL in a WebView or external browser
+        navigation.navigate('Webview', {url: paymentURL, selectedItem});
+        console.log(paymentURL);
+      } catch (error) {
+        console.error(
+          'Error initiating payment:',
+          error.response ? error.response.data : error.message,
+        );
+      }
     } else {
       freePlan();
-      //navigation.replace('Home');
+      // navigation.replace('Home');
     }
   };
 
@@ -236,15 +271,52 @@ const Services = ({navigation}) => {
       </View>
       <ScrollView>
         <View>
+          <View style={styles.textView}>
+            <Text style={styles.oneText}>Current plan</Text>
+          </View>
           <View style={styles.subView}>
             <Card style={styles.mainCard}>
-              <Card.Content>
-                <Paragraph>
-                  Subscription Type : {user.planId?.pack_name}
-                </Paragraph>
-                <Paragraph>Start Date : {user?.start_date}</Paragraph>
-                <Paragraph>Expiry Date : {user?.expdate}</Paragraph>
-              </Card.Content>
+              {user?.is_paid == '0' ? (
+                <Card.Content>
+                  <Paragraph>Subscription Type : {user?.pack_name}</Paragraph>
+                  {user?.is_paid == 0 ? null : (
+                    <>
+                      <Paragraph>Start Date : {user?.start_date}</Paragraph>
+                      <Paragraph>Expiry Date : {user?.expdate}</Paragraph>
+                    </>
+                  )}
+                </Card.Content>
+              ) : user?.is_paid == '1' ? (
+                <Card.Content>
+                  <Paragraph>Subscription Type :{user?.pack_name}</Paragraph>
+                  {user?.is_paid == 0 ? null : (
+                    <>
+                      <Paragraph>Start Date : {user?.start_date}</Paragraph>
+                      <Paragraph>Expiry Date : {user?.expdate}</Paragraph>
+                    </>
+                  )}
+                </Card.Content>
+              ) : user?.is_paid == '2' ? (
+                <Card.Content>
+                  <Paragraph>Subscription Type :{user?.pack_name}</Paragraph>
+                  {user?.is_paid == 0 ? null : (
+                    <>
+                      <Paragraph>Start Date : {user?.start_date}</Paragraph>
+                      <Paragraph>Expiry Date : {user?.expdate}</Paragraph>
+                    </>
+                  )}
+                </Card.Content>
+              ) : user?.is_paid == '3' ? (
+                <Card.Content>
+                  <Paragraph>Subscription Type :{user?.pack_name}</Paragraph>
+                  {user?.is_paid == 0 ? null : (
+                    <>
+                      <Paragraph>Start Date : {user?.start_date}</Paragraph>
+                      <Paragraph>Expiry Date : {user?.expdate}</Paragraph>
+                    </>
+                  )}
+                </Card.Content>
+              ) : null}
             </Card>
           </View>
           <View style={styles.subView}>
@@ -283,9 +355,9 @@ const Services = ({navigation}) => {
                           },
                         ]}>
                         <Text style={styles.textcard}>{item?.pack_name}</Text>
-                        <Text style={styles.textcard}>₹{item?.des_price}</Text>
+                        <Text style={styles.textcard}>{item?.des_price}</Text>
                         <Text style={styles.textcard1}>
-                          ₹ {item?.mrp_price}
+                           {item?.mrp_price}
                         </Text>
                         <Text style={styles.offText}>{item?.desc}</Text>
                       </View>
@@ -335,19 +407,32 @@ const Services = ({navigation}) => {
           <View style={styles.subView}>
             <View style={styles.viewThree}>
               <Text style={{fontWeight: '700', color: 'black'}}>
-                Referral Wallet Balance
+                Referral Wallet Points
               </Text>
             </View>
             <View
               style={{flexDirection: 'row', justifyContent: 'space-between'}}>
               <View style={styles.viewThree}>
                 <Text style={{fontWeight: '700', color: 'black', fontSize: 16}}>
-                  ₹ {wallet?.amount}
+                   {wallet?.amount}
                 </Text>
               </View>
-              <View style={styles.viewThree}>
-                <Text style={{color: '#000'}}>Wallet Balance</Text>
-                {/* <Text>Use My Wallet Balance</Text> */}
+              <View style={[styles.viewThree, {flexDirection: 'row'}]}>
+                <Text style={{color: '#000'}}>Wallet Points</Text>
+                <View>
+                  <CheckBox
+                    containerStyle={{
+                      margin: 0,
+                      width: '100%',
+                      backgroundColor: 'transparent', // Set background color to transparent
+                      borderRadius: 0, // Set border radius to 0
+                      padding: 0, // Align the title from right to left
+                    }}
+                    checked={checkBoxValue}
+                    onPress={handleCheckBoxPress}
+                  />
+                </View>
+                {/* <Text>Use My Wallet Points</Text> */}
               </View>
             </View>
           </View>

@@ -4,6 +4,7 @@ import {
   Text,
   View,
   useWindowDimensions,
+  ScrollView,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {windowHeight, windowWidth} from '../../utils/Dimensions';
@@ -18,7 +19,7 @@ const PremiumPaid = () => {
   }, []);
   const getTodayProfit = () => {
     axios
-      .get(`http://62.72.58.41:5000/admin/serviceslist`)
+      .get(`https://crm.tradlogy.com/admin/serviceslist`)
       .then(response => {
         console.log('????', response.data);
         setData(response.data.data);
@@ -34,31 +35,28 @@ const PremiumPaid = () => {
   };
   console.log('response??', data);
   return (
-    <SafeAreaView>
-      <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <ScrollView style={{flex: 1}}>
         <View style={{flex: 1}}>
           <Text style={styles.head}>Premium / paid Services included:</Text>
           {data?.map(item => (
             <View
-              style={{flexDirection: 'row', alignItems: 'center'}}
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginHorizontal: 10,
+              }}
               key={item._id}>
-              <View>
-                <Text style={styles.sub}>✔</Text>
-              </View>
-              <View>
-                {console.log(item?.planId?.desc)}
-                {/* <Text style={styles.sub}>{item?.planId?.desc}</Text> */}
-                <RenderHtml
-                  key={item._id}
-                  contentWidth={width}
-                  tagsStyles={tagsStyles}
-                  source={{html: item?.desc}}
-                />
-              </View>
+              <RenderHtml
+                key={item._id}
+                contentWidth={width}
+                tagsStyles={tagsStyles}
+                source={{html: item?.desc}}
+              />
             </View>
           ))}
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -67,12 +65,8 @@ export default PremiumPaid;
 
 const styles = StyleSheet.create({
   container: {
-    // justifyContent: 'flex-start',
-    // alignItems: 'center',
-    height: windowHeight,
-    //width: windowWidth,
+    flex: 1,
     backgroundColor: '#fff',
-    marginHorizontal: 10,
   },
   head: {
     margin: 5,
@@ -81,10 +75,6 @@ const styles = StyleSheet.create({
   },
   sub: {
     color: '#000',
-    textAlign: 'left',
-    fontWeight: '500',
-    marginHorizontal: 5,
-    marginRight: 10,
   },
   subsub: {
     marginLeft: 25,

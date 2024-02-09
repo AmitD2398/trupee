@@ -19,7 +19,7 @@ export default function Trasaction({navigation}) {
 
   const getTrans = async () => {
     axios
-      .get('http://62.72.58.41:5000/admin/UsermembershipPayment', {
+      .get('https://crm.tradlogy.com/admin/UsermembershipPayment', {
         headers: {
           'auth-token': await AsyncStorage.getItem('auth-token'),
         },
@@ -57,7 +57,7 @@ export default function Trasaction({navigation}) {
                     margin: 3,
                     fontWeight: '600',
                   }}>
-                  Amount: ₹{transList?.planId?.des_price}
+                  Amount: {transList?.planId?.des_price}
                 </ListItem.Subtitle>
                 <ListItem.Subtitle
                   style={{

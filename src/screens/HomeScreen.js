@@ -31,12 +31,12 @@ export default function HomeScreen({navigation, props}) {
   // console.log('date', date);
 
   useEffect(() => {
-    getTodayProfitDate();
-  }, [date]);
+    getTodayProfit();
+  }, [date, tabDate, todayProfit]);
 
   const getTodayProfit = () => {
     axios
-      .get(`http://62.72.58.41:5000/admin/today_profit_loss`)
+      .get(`https://crm.tradlogy.com/admin/today_profit_loss`)
       .then(response => {
         //console.log(response.data);
         setTodayProfit(response.data);
@@ -47,7 +47,7 @@ export default function HomeScreen({navigation, props}) {
   };
   const getTodayProfitDate = () => {
     axios
-      .get(`http://62.72.58.41:5000/admin/profit_loss_byDate/${date}`)
+      .get(`https://crm.tradlogy.com/admin/profit_loss_byDate/${date}`)
       .then(response => {
         console.log('date<><', response.data);
         setTabDate(response.data.total_prft_loss);
@@ -58,7 +58,7 @@ export default function HomeScreen({navigation, props}) {
   };
   const getWeeklyProfit = () => {
     axios
-      .get(`http://62.72.58.41:5000/admin/weekely_profit_loss`)
+      .get(`https://crm.tradlogy.com/admin/weekely_profit_loss`)
       .then(response => {
         //console.log(response.data);
         setWeeklyProfit(response.data);
@@ -69,9 +69,9 @@ export default function HomeScreen({navigation, props}) {
   };
   const getMonthlyProfit = () => {
     axios
-      .get(`http://62.72.58.41:5000/admin/monthly_profit_loss`)
+      .get(`https://crm.tradlogy.com/admin/monthly_profit_loss`)
       .then(response => {
-        //console.log(response.data);
+        console.log('monthly_profit_loss', response.data);
         setMonthlyProfit(response.data);
       })
       .catch(error => {
@@ -79,7 +79,7 @@ export default function HomeScreen({navigation, props}) {
       });
   };
   useEffect(() => {
-    getTodayProfit();
+    getTodayProfitDate();
     getWeeklyProfit();
     getMonthlyProfit();
   }, []);
@@ -101,7 +101,7 @@ export default function HomeScreen({navigation, props}) {
           <View style={styles.secondView}>
             <TouchableOpacity style={styles.dateTextView}>
               <View style={styles.tradeTextView}>
-                <Text style={styles.tradeText}>Today's P&L</Text>
+                <Text style={styles.tradeText}>Today's Results</Text>
               </View>
               <View
                 style={{
@@ -110,11 +110,11 @@ export default function HomeScreen({navigation, props}) {
                 }}>
                 {todayProfit?.total_prft_loss < 0 ? (
                   <Text style={[styles.tradeText1, {color: 'red'}]}>
-                    ₹ {tabDate}
+                     {todayProfit?.total_prft_loss}
                   </Text>
                 ) : (
                   <Text style={[styles.tradeText1, {color: 'green'}]}>
-                    ₹ {todayProfit?.total_prft_loss}
+                     {todayProfit?.total_prft_loss}
                   </Text>
                 )}
                 <TouchableOpacity
@@ -146,16 +146,22 @@ export default function HomeScreen({navigation, props}) {
                         borderWidth: 0,
                         marginBottom: 5,
                       },
+                      datePicker: {
+                        backgroundColor: 'lightblue',
+                      },
+                      dateText: {
+                        color: 'purple',
+                      },
+                      placeholderText: {
+                        color: 'red',
+                      },
                     }}
                   />
-                  <View></View>
                 </TouchableOpacity>
               </View>
               <TouchableOpacity onPress={() => setModalVisible(true)}>
                 <View style={styles.tradeTextView}>
-                  <Text style={styles.tradeText2}>
-                    Total Performance | Trade History
-                  </Text>
+                  <Text style={styles.tradeText2}>Total Performance</Text>
                 </View>
               </TouchableOpacity>
             </TouchableOpacity>
@@ -170,17 +176,17 @@ export default function HomeScreen({navigation, props}) {
                 }}>
                 <View style={styles.centeredView}>
                   <View style={styles.modalView}>
-                    <Text style={styles.modalText}>Profit & Loss</Text>
+                    <Text style={styles.modalText}>Probabilities</Text>
                     <View style={{flexDirection: 'row'}}>
                       <View>
                         <Text style={styles.modalText}>Today</Text>
                         {todayProfit?.total_prft_loss < 0 ? (
                           <Text style={[styles.modalText1, {color: 'red'}]}>
-                            ₹ {todayProfit?.total_prft_loss}
+                             {todayProfit?.total_prft_loss}
                           </Text>
                         ) : (
                           <Text style={[styles.modalText1, {color: 'green'}]}>
-                            ₹ {todayProfit?.total_prft_loss}
+                             {todayProfit?.total_prft_loss}
                           </Text>
                         )}
                       </View>
@@ -188,11 +194,11 @@ export default function HomeScreen({navigation, props}) {
                         <Text style={styles.modalText}>Weekly</Text>
                         {weeklyProfit?.weekly_profit_loss < 0 ? (
                           <Text style={[styles.modalText1, {color: 'red'}]}>
-                            ₹ {weeklyProfit?.weekly_profit_loss}
+                             {weeklyProfit?.weekly_profit_loss}
                           </Text>
                         ) : (
                           <Text style={[styles.modalText1, {color: 'green'}]}>
-                            ₹ {weeklyProfit?.weekly_profit_loss}
+                             {weeklyProfit?.weekly_profit_loss}
                           </Text>
                         )}
                       </View>
@@ -200,11 +206,11 @@ export default function HomeScreen({navigation, props}) {
                         <Text style={styles.modalText}>Monthly</Text>
                         {monthlyProfit?.thirtydays_prft_loss < 0 ? (
                           <Text style={[styles.modalText1, {color: 'red'}]}>
-                            ₹ {monthlyProfit?.thirtydays_prft_loss}
+                             {monthlyProfit?.thirtydays_prft_loss}
                           </Text>
                         ) : (
                           <Text style={[styles.modalText1, {color: 'green'}]}>
-                            ₹ {monthlyProfit?.thirtydays_prft_loss}
+                             {monthlyProfit?.thirtydays_prft_loss}
                           </Text>
                         )}
                       </View>

@@ -24,7 +24,7 @@ const Appreciation = () => {
     console.log(money, desc, paymentId);
     axios
       .post(
-        `http://62.72.58.41:5000/user/add_appriciation`,
+        `https://crm.tradlogy.com/user/add_appriciation`,
         {
           amt: money,
           desc: desc,

@@ -38,6 +38,17 @@ const Explore = ({navigation}) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.ddd}
+                  onPress={() => navigation.navigate('Charts')}>
+                  <ImageBackground
+                    source={require('../../Images/explore/treading-viw-chart-tab1.png')}
+                    style={styles.exploreImg}>
+                    <View style={styles.ccc1}>
+                      <Text style={styles.ccctext}>Trading View Charts</Text>
+                    </View>
+                  </ImageBackground>
+                </TouchableOpacity>
+                {/* <TouchableOpacity
+                  style={styles.ddd}
                   onPress={() => navigation.navigate('University')}>
                   <ImageBackground
                     source={require('../../Images/explore/trupee-library-tab1.png')}
@@ -46,7 +57,7 @@ const Explore = ({navigation}) => {
                       <Text style={styles.ccctext}>tradlogy University</Text>
                     </View>
                   </ImageBackground>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
               <View style={styles.bbb}>
                 <TouchableOpacity
@@ -72,7 +83,7 @@ const Explore = ({navigation}) => {
                   </ImageBackground>
                 </TouchableOpacity>
               </View>
-              <View style={styles.bbb}>
+              {/* <View style={styles.bbb}>
                 <TouchableOpacity
                   style={styles.ccc}
                   onPress={() => navigation.navigate('Opportunity')}>
@@ -95,7 +106,7 @@ const Explore = ({navigation}) => {
                     </View>
                   </ImageBackground>
                 </TouchableOpacity>
-              </View>
+              </View> */}
               <View style={styles.bbb}>
                 <Text style={styles.exploreText}>
                   A reliable platform for small and short term investors

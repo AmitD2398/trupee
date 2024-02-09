@@ -19,7 +19,7 @@ export default function AboutUs() {
 
   const getTrans = async () => {
     axios
-      .get('http://62.72.58.41:5000/admin/getAbout_us', {
+      .get('https://crm.tradlogy.com/admin/getAbout_us', {
         headers: {
           'auth-token': await AsyncStorage.getItem('auth-token'),
         },

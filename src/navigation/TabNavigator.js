@@ -33,6 +33,7 @@ import MemberPlan from '../screens/services/MemberPlan';
 import EnterRefer from '../screens/Drawer/EnterRefer';
 import NotificationAlert from '../screens/notification/NotificationAlert';
 import AboutUs from '../screens/profile/AboutUs';
+import Webview from '../components/Webview';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -70,6 +71,11 @@ const HomeStack = () => {
       />
       <Stack.Screen name="Register" component={RegisterScreen} />
 
+      <Stack.Screen
+        name="Webview"
+        component={Webview}
+        options={{headerShown: false}}
+      />
       <Stack.Screen
         name="Home"
         component={TabNavigator}

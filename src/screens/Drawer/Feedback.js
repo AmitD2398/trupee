@@ -34,6 +34,7 @@ const Feedback = () => {
       .post(
         `/addFeedback`,
         {title: selectedItem, desc: desc},
+
         {headers: {'auth-token': await AsyncStorage.getItem('auth-token')}},
       )
       .then(response => {

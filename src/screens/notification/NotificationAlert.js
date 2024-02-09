@@ -18,7 +18,7 @@ export default function NotificationAlert() {
   }, []);
   const getTodayProfit = () => {
     axios
-      .get(`http://62.72.58.41:5000/user/appNotification_alert`)
+      .get(`https://crm.tradlogy.com/user/appNotification_alert`)
       .then(response => {
         console.log('<>>>', response.data);
         setData(response.data.data);
@@ -107,7 +107,7 @@ export default function NotificationAlert() {
               </View>
               <View style={[styles.showTradeStyle, {marginVertical: 5}]}>
                 <Text style={styles.txt}>
-                  {item.investment_amt} Qty | ₹ {item.qty}
+                  {item.investment_amt} Qty |  {item.qty}
                 </Text>
                 <Text style={styles.txt}>---</Text>
               </View>

@@ -19,27 +19,30 @@ const EnterRefer = () => {
   const [code, setCode] = useState('');
 
   const approve = async () => {
+    const authToken = await AsyncStorage.getItem('auth-token');
+    console.log('Auth Token:', authToken);
+    console.log('code', code);
     axios
       .post(
-        `http://62.72.58.41:5000/user/refer_earn`,
+        'https://crm.tradlogy.com/user/refer_earn',
         {
           refral_Code: code,
         },
-        {headers: {'auth-token': await AsyncStorage.getItem('auth-token')}},
+        {headers: {'auth-token': authToken}},
       )
       .then(response => {
-        console.log(response.data.data);
+        console.log('Enter refer', response.data.data);
         console.log(response.data.message);
         {
           response.data.message === 'success' &&
           response.data.data.userverified === true
             ? (Alert.alert('Referral Code Successfull'), setCode(''))
-            : null;
+            : Alert.alert('Invalid Code');
         }
       })
       .catch(error => {
         console.log(error.response.data);
-        if (error.response.data.msg === 'Incorrect Verify Code') {
+        if (error.response.data.message === 'Invalid referal code.') {
           Alert.alert('Incorrect Code..');
         }
       });
@@ -83,7 +86,12 @@ const EnterRefer = () => {
         </View>
       </ScrollView>
       <View>
-        <TouchableOpacity style={styles.bottomButton} onPress={approve}>
+        <TouchableOpacity
+          style={styles.bottomButton}
+          onPress={() => {
+            console.log('TouchableOpacity pressed');
+            approve();
+          }}>
           <Text style={styles.buttonText}>SUBMIT</Text>
         </TouchableOpacity>
       </View>

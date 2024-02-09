@@ -2,22 +2,22 @@ import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import HomeStack from './src/navigation/TabNavigator';
 import messaging from '@react-native-firebase/messaging';
-import {
-  getToken,
-  notificationListenr,
-  requestUserPermission,
-} from './src/utils/commonUtils';
+import {getToken} from './src/utils/commonUtils';
 import {Alert} from 'react-native';
 import PushNotification, {Importance} from 'react-native-push-notification';
 import OfflineNotice from './src/components/OfflineNotice';
 import ForceUpdateDialog from './src/components/ForceUpdateDialog';
 import DeviceInfo from 'react-native-device-info';
+import {
+  notificationListener,
+  requestUserPermission,
+} from './src/utils/notificationServices';
 
 PushNotification.createChannel(
   ///for Local Push Notification
   {
-    channelId: '422681026042', // (required)
-    channelName: 'trupee', // (required)
+    channelId: '566100600971', // (required)
+    channelName: 'tradlogy', // (required)
     channelDescription: 'A channel to categorise your notifications', // (optional) default: undefined.
     playSound: true, // (optional) default: true
     soundName: 'default', // (optional) See `soundName` parameter of `localNotification` function
@@ -43,16 +43,14 @@ function App() {
         channelId: true,
         vibrate: true,
       });
-      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+      // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
     });
 
     return unsubscribe;
   }, []);
 
   useEffect(() => {
-    requestUserPermission();
-    notificationListenr();
-    getToken();
+    notificationListener(), requestUserPermission(), getToken();
   }, []);
   return (
     <NavigationContainer>

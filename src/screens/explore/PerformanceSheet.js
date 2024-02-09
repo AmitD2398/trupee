@@ -53,7 +53,7 @@ const PerformanceSheet = () => {
     console.log(email, selectedItem);
     axios
       .post(
-        `http://62.72.58.41:5000/user/ad_user_persheet`,
+        `https://crm.tradlogy.com/user/ad_user_persheet`,
         {
           email: email,
           plan: selectedItem,
@@ -140,8 +140,8 @@ const PerformanceSheet = () => {
                       {item?.month}, {item?.year}
                     </Text>
                     <View style={{flexDirection: 'row'}}>
-                      <Text style={styles.itemPrice}>₹{item.dst_price}</Text>
-                      <Text style={styles.itemPriceOff}>₹{item.mrp}</Text>
+                      <Text style={styles.itemPrice}>{item.dst_price}</Text>
+                      <Text style={styles.itemPriceOff}>{item.mrp}</Text>
                     </View>
                   </TouchableOpacity>
                 )}
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
   },
 
   touchtop: {
-    backgroundColor: 'blue',
+    backgroundColor: 'purple',
     padding: 5,
     borderRadius: 10,
   },
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     padding: 5,
     height: 60,
     borderWidth: 3,
-    borderColor: '#000',
+    borderColor: 'purple',
   },
   itemContainer2: {
     justifyContent: 'center',
@@ -260,7 +260,7 @@ const styles = StyleSheet.create({
   },
   touchButton: {},
   buttonText: {
-    backgroundColor: 'blue',
+    backgroundColor: 'purple',
     color: '#fff',
     paddingVertical: 10,
     paddingHorizontal: 35,

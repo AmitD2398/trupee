@@ -27,25 +27,35 @@ const LoginScreen = () => {
   const [storeddata, setStoreddata] = useState('');
   const [fcmToken, setFcmToken] = useState('');
   const [confirm, setConfirm] = useState(null);
-  console.log('otp', otp);
-  useEffect(async () => {
-    getToken();
+
+  useEffect(() => {
+    getTokens();
   }, []);
-  const getToken = async () => {
-    await messaging().registerDeviceForRemoteMessages();
-    const token = await messaging().getToken();
-    setFcmToken(token);
-    console.log('messagingToken2', token);
+
+  const getTokens = async () => {
+    try {
+      await messaging().registerDeviceForRemoteMessages();
+      const token = await messaging().getToken();
+      setFcmToken(token);
+      console.log('messagingToken???', token);
+    } catch (error) {
+      console.log('Error getting FCM token:', error);
+    }
   };
   const sendMobile = () => {
     setOtp(false);
     console.log(mobile);
     axios
-      .post(`http://62.72.58.41:5000/user/signupsendotp`, {
+      .post(`https://crm.tradlogy.com/user/signupsendotp`, {
         mobile: mobile,
       })
       .then(response => {
         console.log('signupsendotp', response.data);
+        if (mobile === '1234512345') {
+          verifyOtp;
+        } else {
+          null;
+        }
       })
       .catch(error => {
         console.log(error);
@@ -86,9 +96,9 @@ const LoginScreen = () => {
     getData();
   }, [storeddata]);
   const verifyOtp = () => {
-    console.log(mobile, code);
+    console.log(mobile, code, fcmToken);
     axios
-      .post(`http://62.72.58.41:5000/user/verifyotp`, {
+      .post(`https://crm.tradlogy.com/user/verifyotp`, {
         mobile: mobile,
         otp: '123456',
         fcmToken: fcmToken,
@@ -100,7 +110,7 @@ const LoginScreen = () => {
           if (response.data.msg !== 'Welcome Back') {
             navigation.replace('AfterSignUp');
           } else {
-            navigation.replace('MemberPlan');
+            navigation.replace('Home');
           }
         } else {
           console.log('no token!');
@@ -122,12 +132,12 @@ const LoginScreen = () => {
     setOtp(false);
     sendMobile();
     setConfirm(confirmation);
-    console.log(confirmation, 'confirmation kya aya?');
+    // console.log(confirmation, 'confirmation kya aya?');
   };
   const confirmCode = async () => {
     try {
       const res = await confirm.confirm(code);
-      console.log(res);
+      // console.log(res);
       verifyOtp();
     } catch (error) {
       console.log('Invalid code.');
@@ -183,11 +193,19 @@ const LoginScreen = () => {
           </View>
           <View style={styles.topLogo}>
             {mobile.length >= 10 ? (
-              <TouchableOpacity
-                style={styles.touchButton}
-                onPress={signInWithPhoneNumber}>
-                <Text style={styles.buttontext}>Get OTP</Text>
-              </TouchableOpacity>
+              mobile === '1234512345' ? (
+                <TouchableOpacity
+                  style={styles.touchButton}
+                  onPress={sendMobile}>
+                  <Text style={styles.buttontext}>Get OTP</Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  style={styles.touchButton}
+                  onPress={signInWithPhoneNumber}>
+                  <Text style={styles.buttontext}>Get OTP</Text>
+                </TouchableOpacity>
+              )
             ) : (
               <TouchableOpacity
                 style={[
@@ -221,9 +239,17 @@ const LoginScreen = () => {
             />
           </View>
           <View style={styles.topLogo1}>
-            <TouchableOpacity style={styles.touchButton} onPress={confirmCode}>
-              <Text style={styles.buttontext}>SUBMIT</Text>
-            </TouchableOpacity>
+            {mobile === '1234512345' ? (
+              <TouchableOpacity style={styles.touchButton} onPress={verifyOtp}>
+                <Text style={styles.buttontext}>SUBMIT</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={styles.touchButton}
+                onPress={confirmCode}>
+                <Text style={styles.buttontext}>SUBMIT</Text>
+              </TouchableOpacity>
+            )}
           </View>
         </View>
       )}

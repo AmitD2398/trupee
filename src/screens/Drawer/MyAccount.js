@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
+  ToastAndroid,
 } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import DatePicker from 'react-native-datepicker';
@@ -23,7 +24,7 @@ const MyAccount = ({navigation}) => {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [emailValidError, setEmailValidError] = useState('');
-  const [mobile, setMobile] = useState();
+  const [mobile, setMobile] = useState('');
   const [gender, setGender] = useState('male');
   const [userId, setUserId] = useState('');
 
@@ -55,7 +56,7 @@ const MyAccount = ({navigation}) => {
 
   const getUser = async () => {
     axios
-      .get(`http://62.72.58.41:5000/user/viewoneuser`, {
+      .get(`https://crm.tradlogy.com/user/viewoneuser`, {
         headers: {'auth-token': await AsyncStorage.getItem('auth-token')},
       })
       .then(response => {
@@ -77,27 +78,48 @@ const MyAccount = ({navigation}) => {
   }, []);
 
   const editProfile = async () => {
-    console.log(firstName, lastName, email, mobile, gender, date);
-    axios
-      .post(
-        `http://62.72.58.41:5000/user/myprofile`,
+    try {
+      if (!firstName || !lastName || !email || !mobile || !gender || !date) {
+        ToastAndroid.show('Please fill in all fields', ToastAndroid.LONG);
+        return;
+      }
+
+      // Format the date to dd-mm-yyyy
+      const formattedDate = new Date(date).toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      });
+
+      const authToken = await AsyncStorage.getItem('auth-token');
+      if (!authToken) {
+        ToastAndroid.show('Authentication token not found', ToastAndroid.LONG);
+        return;
+      }
+
+      const response = await axios.post(
+        'https://crm.tradlogy.com/user/myprofile',
         {
           firstname: firstName,
           lastname: lastName,
           gender: gender,
-          dob: date,
+          dob: formattedDate,
           email: email,
           mobile: mobile,
         },
-        {headers: {'auth-token': await AsyncStorage.getItem('auth-token')}},
-      )
-      .then(response => {
-        console.log(response.data);
-        navigation.replace('My Account');
-      })
-      .catch(error => {
-        console.log(error);
-      });
+        {headers: {'auth-token': authToken}},
+      );
+
+      console.log(response.data);
+      ToastAndroid.show('Successfully Updated Profile', ToastAndroid.LONG);
+      navigation.replace('My Account');
+    } catch (error) {
+      console.error(error);
+      ToastAndroid.show(
+        'An error occurred. Please try again.',
+        ToastAndroid.LONG,
+      );
+    }
   };
 
   return (
@@ -142,16 +164,16 @@ const MyAccount = ({navigation}) => {
               style={[styles.tfield, {width: 250}]}
               selectedValue={gender}
               onValueChange={(itemValue, itemIndex) => setGender(itemValue)}>
-              <Picker.Item label="Male" value="male" style={{color: '#000'}} />
+              <Picker.Item label="Male" value="male" style={{color: '#fff'}} />
               <Picker.Item
                 label="Female"
                 value="female"
-                style={{color: '#000'}}
+                style={{color: '#fff'}}
               />
               <Picker.Item
                 label="Other"
                 value="other"
-                style={{color: '#000'}}
+                style={{color: '#fff'}}
               />
             </Picker>
           </View>
